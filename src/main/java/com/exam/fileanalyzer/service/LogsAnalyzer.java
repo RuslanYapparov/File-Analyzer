@@ -1,6 +1,8 @@
 package com.exam.fileanalyzer.service;
 
 import lombok.*;
+import org.springframework.lang.NonNull;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.time.LocalDate;
@@ -18,7 +20,7 @@ public interface LogsAnalyzer
          * @return A map of file names and the number of occurrences of the search query in the file.
          * @throws IOException if the zip file or its entries cannot be read.
          */
-        Map<String, Integer> countEntriesInZipFile(CountEntriesParamHolder paramHolder) throws IOException;
+        Map<String, Integer> countEntriesInZipFile(@NonNull CountEntriesParamHolder paramHolder) throws IOException;
 
         /**
          * An object containing data used in the method of calculating the number of lines in the log files.
@@ -29,8 +31,8 @@ public interface LogsAnalyzer
         {
                 /** The string to search for in the file. */
                 String searchQuery;
-                /** The zip file to search in. */
-                File zipFile;
+                /** The multipart zip file to search in uploaded with http-request. */
+                MultipartFile zipMultipartFile;
                 /** The start date of the search. */
                 LocalDate startDate;
                 /** The number of days to search for from the start date. */

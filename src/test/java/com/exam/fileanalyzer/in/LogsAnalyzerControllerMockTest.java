@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.time.LocalDate;
@@ -79,7 +79,8 @@ public class LogsAnalyzerControllerMockTest
                 {
                         CountEntriesParamHolder paramHolder = CountEntriesParamHolder.builder()
                                 .searchQuery(searchQuery)
-                                .zipFile(new File("src/test/resources/logs-27_02_2018-03_03_2018.zip"))
+                                .zipMultipartFile(new MockMultipartFile("MockFile",
+                                        new FileInputStream("src/test/resources/logs-27_02_2018-03_03_2018.zip")))
                                 .numberOfDays(Integer.parseInt(numberOfDays))
                                 .startDate(LocalDate.now())
                                 .build();

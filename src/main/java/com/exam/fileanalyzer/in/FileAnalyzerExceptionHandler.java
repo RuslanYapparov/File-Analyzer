@@ -13,6 +13,9 @@ import java.time.LocalDateTime;
 public class FileAnalyzerExceptionHandler
 {
 
+//        MaxUploadSizeExceededException.class
+//        FileSizeLimitExceededException
+
         /**
         * DTO with minimal information about the exception to be returned from the service.
         */

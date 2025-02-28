@@ -32,7 +32,8 @@ public class FileAnalyzerExceptionHandlerMockTest
         }
 
         @Test
-        void countEntriesInZipFile_whenServiceThrowIllegalArgumentException_thenReturnExceptionDtoWith400Status() throws Exception
+        void countEntriesInZipFile_whenServiceThrowIllegalArgumentException_thenReturnExceptionDtoWith400Status()
+                throws Exception
         {
                 when(logAnalyzer.countEntriesInZipFile(Mockito.any(CountEntriesParamHolder.class)))
                         .thenThrow(new IllegalArgumentException("You are not right!"));
@@ -51,7 +52,8 @@ public class FileAnalyzerExceptionHandlerMockTest
         }
 
         @Test
-        void countEntriesInZipFile_whenServiceThrowRuntimeException_thenReturnExceptionDtoWith500Status() throws Exception
+        void countEntriesInZipFile_whenServiceThrowRuntimeException_thenReturnExceptionDtoWith500Status()
+                throws Exception
         {
                 when(logAnalyzer.countEntriesInZipFile(Mockito.any(CountEntriesParamHolder.class)))
                         .thenThrow(new ArithmeticException("Wtf!"));
