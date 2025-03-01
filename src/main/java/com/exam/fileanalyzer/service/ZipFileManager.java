@@ -32,6 +32,6 @@ public interface ZipFileManager
          * @throws IOException if meets the problem on deleting some file.
          * @throws IllegalStateException if gets null or empty list.
          */
-        void deleteTempLogFiles(List<Path> logFilePaths) throws IOException;
+        void deleteTempLogFiles(@NonNull List<Path> logFilePaths) throws IOException;
 
 }

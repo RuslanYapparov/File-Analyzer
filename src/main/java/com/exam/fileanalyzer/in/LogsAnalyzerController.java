@@ -3,10 +3,10 @@ package com.exam.fileanalyzer.in;
 import com.exam.fileanalyzer.service.LogsAnalyzer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Map;
@@ -49,7 +49,8 @@ public class LogsAnalyzerController
         public Map<String, Integer> countEntriesInZipFile(
                 @RequestParam("file") MultipartFile zipFile,
                 @RequestParam(name = "text", required = false) String searchQuery,
-                @RequestParam(name = "date", required = false) LocalDate startDate,
+                @RequestParam(name = "date", required = false)
+                @DateTimeFormat(pattern = "dd.MM.yyyy") LocalDate startDate,
                 @RequestParam(name = "days", required = false) Integer numberOfDays)
                 throws IOException
         {

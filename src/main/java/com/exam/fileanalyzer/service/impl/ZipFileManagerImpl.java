@@ -4,8 +4,7 @@ import com.exam.fileanalyzer.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.*;
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
+import org.springframework.lang.*;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -120,10 +119,10 @@ public class ZipFileManagerImpl implements ZipFileManager
          * @throws IllegalStateException if gets null or empty list.
          */
         @Override
-        public void deleteTempLogFiles(List<Path> logFilePaths) throws IOException
+        public void deleteTempLogFiles(@NonNull List<Path> logFilePaths) throws IOException
         {
                 log.debug("Deleting temporary log files and their parent directory...");
-                if (Objects.isNull(logFilePaths) || logFilePaths.isEmpty())
+                if (logFilePaths.isEmpty())
                 {
                         throw new IllegalStateException("The log file paths list for deleting is null or empty. " +
                                 "There is must be at least one path (created temp directory) to delete.");

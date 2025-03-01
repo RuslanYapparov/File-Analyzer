@@ -1,30 +1,33 @@
 package com.exam.fileanalyzer.service;
 
-import com.exam.fileanalyzer.service.impl.LogsAnalyzerImpl;
+import com.exam.fileanalyzer.service.impl.MultiThreadLogsAnalyzerImpl;
+import com.exam.fileanalyzer.service.impl.SingleThreadLogsAnalyzerImpl;
 import com.exam.fileanalyzer.service.impl.ZipFileManagerImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.time.LocalDate;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 import static com.exam.fileanalyzer.service.LogsAnalyzer.CountEntriesParamHolder;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SpringBootTest(classes = { LogsAnalyzerImpl.class, ZipFileManagerImpl.class },
+@SpringBootTest(classes = { MultiThreadLogsAnalyzerImpl.class, ZipFileManagerImpl.class },
         properties = { "temp.dir.path=src/test/resources/tmp" })
 public class LogsAnalyzerTest
 {
         private final static String FILES_DIRECTORY = "src/test/resources/";
-        private final LogsAnalyzer logsAnalyzer;
+        private LogsAnalyzer logsAnalyzer;
+        @SpyBean
+        private ZipFileManager zipFileManager;
 
         @Autowired
         public LogsAnalyzerTest(LogsAnalyzer logsAnalyzer)
@@ -34,7 +37,7 @@ public class LogsAnalyzerTest
 
         @ParameterizedTest
         @ValueSource(strings = { "logs-27_02_2018-03_03_2018.zip", "logs_in_directories.zip", "проблемный зип.zip" })
-        void countEntriesInZipFile_whenGetCorrectNonNullParamsWith2018TestFile_thenReturnCorrectMap(String fileName)
+        void countEntriesInZipFile_whenGetCorrectNonNullParamsWithCorrectTestFile_thenReturnCorrectMap(String fileName)
                 throws IOException
         {
                 CountEntriesParamHolder paramHolder = CountEntriesParamHolder.builder()
@@ -118,7 +121,7 @@ public class LogsAnalyzerTest
 
         @ParameterizedTest
         @ValueSource(strings = { "empty.zip", "incorrect_pattern_logs+file.zip" })
-        void countEntriesInZipFile_whenGetEmptyOrIncorrectPatterLogsZipFileWith2018TestFile_thenReturnEmptyMap(
+        void countEntriesInZipFile_whenGetEmptyOrIncorrectPatterLogsZipFileWithIncorrectZipTestFile_thenReturnEmptyMap(
                 String fileName) throws IOException
         {
                 CountEntriesParamHolder paramHolder = CountEntriesParamHolder.builder()
@@ -131,6 +134,15 @@ public class LogsAnalyzerTest
 
                 assertThat(result).isNotNull();
                 assertThat(result).isEmpty();
+        }
+
+        @Test
+        void singleThreadLogsAnalyzerImplTests() throws IOException {
+                logsAnalyzer = new SingleThreadLogsAnalyzerImpl(zipFileManager);
+                countEntriesInZipFile_whenGetCorrectNonNullParamsWithCorrectTestFile_thenReturnCorrectMap(
+                        "проблемный зип.zip");
+                countEntriesInZipFile_whenGetNullOrNotZipFileWith2018TestFile_thenThrowsIllegalArgumentException(
+                        "SuYo.jpg");
         }
 
         private MultipartFile createMockFile(String fileName) throws IOException

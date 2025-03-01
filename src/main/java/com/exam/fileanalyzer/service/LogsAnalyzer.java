@@ -32,6 +32,7 @@ public interface LogsAnalyzer
                 /** The string to search for in the file. */
                 String searchQuery;
                 /** The multipart zip file to search in uploaded with http-request. */
+                @ToString.Exclude
                 MultipartFile zipMultipartFile;
                 /** The start date of the search. */
                 LocalDate startDate;
