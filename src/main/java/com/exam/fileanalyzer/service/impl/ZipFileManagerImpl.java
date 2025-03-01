@@ -43,7 +43,14 @@ public class ZipFileManagerImpl implements ZipFileManager
         @Autowired
         public ZipFileManagerImpl(@Value("${temp.dir.path}") String tempDirPath)
         {
-                tempDir = Paths.get(tempDirPath);
+                Path inspectPath = Paths.get(tempDirPath);
+                if (Files.exists(inspectPath.getParent()))
+                {
+                        tempDir = inspectPath;
+                } else
+                {
+                        tempDir = Paths.get(System.getProperty("java.io.tmpdir"), "logs-tmp");
+                }
         }
 
         /**

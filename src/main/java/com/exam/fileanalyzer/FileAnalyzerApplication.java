@@ -9,14 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class FileAnalyzerApplication
 {
-		/**
-	 	* Runs the server for processing log analysis queries.
-		*
-	 	* @param args command line arguments.
-	 	*/
-		public static void main(String[] args)
-		{
-				SpringApplication.run(FileAnalyzerApplication.class, args);
-		}
+
+        /**
+         * Runs the server for processing log analysis queries.
+         *
+         * @param args command line arguments.
+         */
+        public static void main(String[] args)
+        {
+                SpringApplication.run(FileAnalyzerApplication.class, args);
+        }
 
 }
